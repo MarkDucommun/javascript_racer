@@ -37,6 +37,16 @@ var movePlayer = function(player){
 var playerWon = function(player){
   $('.racer_table').hide();
   $('iframe').show();
+  var start = Math.floor(8 + Math.random()*1185)
+  var end = start + 15
+  console.log(start);
+  $('.wrapper').append('<iframe style="position: absolute" width="100%" height="100%" src="//www.youtube.com/embed/Kdgt1ZHkvnM?start=' + start + '&end=' + end + '&autoplay=1"  frameborder="0" allowfullscreen></iframe>')
+  setTimeout(function(){
+    console.log("Got here!");
+    // $('iframe').hide();
+    window.location.reload();
+    console.log("got here too");
+  }, 16000)
 };
 
 var gameFinished = function(player){
