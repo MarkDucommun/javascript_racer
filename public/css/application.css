@@ -231,3 +231,18 @@ a:visited {
   color: black;
   background-color: grey;
 }
+
+/*===========================================================================================*/
+/* APPLICATION SPECIFIC */
+
+.racer_table td {
+  background-color: white;
+  height: 20px;
+  width: 20px;
+}
+
+.racer_table td.active {
+  background-color: black;
+}
+
+

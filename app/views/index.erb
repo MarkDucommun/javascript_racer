@@ -1,20 +1,35 @@
 <div class="wrapper">
-  <div class="not-left"> 
-
-  <% user = User.find(session[:user_id]) if session[:user_id] %>
-
-  <%= CssHelper.authentication(user) %>
-
-  <!-- write a helper method to replace display instance variable -->
-  <%= erb @display.to_sym %>
-  
-  </div>
-
-  <% links = [{display: "1", link: "/"},
-              {display: "2", link: "/"},
-              {display: "3", link: "/"}] %>
-
-  <%= CssHelper.nav_bar("MusculoSkeletal", links) %>
+  <iframe width="560" height="315" src="//www.youtube.com/embed/_BqFkRwdFZ0?autoplay=1" frameborder="0" allowfullscreen></iframe>
+  <table class="racer_table">
+  <tr id="player1_strip">
+    <td class="active"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr id="player2_strip">
+    <td class="active"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 </div>
 
 
