@@ -1,4 +1,5 @@
 get '/' do
+  @players = Player.all
   erb :index
 end
 
@@ -18,8 +19,8 @@ end
 post '/save' do
   puts "this is the winner #{params[:player]}"
   if params[:player] == "#player1_strip"
-    game = Game.last.update_attributes(winner: Game.last.players[0].id.to_s)
+    Game.last.update_attributes(winner_id: Game.last.players[0].id)
   else
-    game = Game.last.update_attributes(winner: Game.last.players[1].id.to_s)
+    Game.last.update_attributes(winner_id: Game.last.players[1].id)
   end
 end

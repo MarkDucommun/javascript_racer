@@ -6,7 +6,7 @@ class AddPlayersAndGames < ActiveRecord::Migration
     end
 
     create_table :games do |t|
-      t.string :winner
+      t.integer :winner_id
       t.timestamps
     end
 

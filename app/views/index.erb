@@ -5,5 +5,11 @@
       <input type="text" name="player_2" placeholder="Player 2">
       <button>Start</button>
     </form>
+
+    <ul>
+      <% @players.each do |player| %>
+      <li><%= player.name %> [ <%= player.won.size %> ]<li>
+      <% end %>
+    </ul>
   </div>
 </div>
