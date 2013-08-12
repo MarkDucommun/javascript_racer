@@ -42,11 +42,13 @@ var playerWon = function(player){
   console.log(start);
   $('.wrapper').append('<iframe style="position: absolute" width="100%" height="100%" src="//www.youtube.com/embed/Kdgt1ZHkvnM?start=' + start + '&end=' + end + '&autoplay=1"  frameborder="0" allowfullscreen></iframe>')
   setTimeout(function(){
-    console.log("Got here!");
-    // $('iframe').hide();
-    window.location.reload();
-    console.log("got here too");
-  }, 16000)
+    console.log(player);
+    $.post("/save", { player: player }, function(server_response){
+      console.log(arguments)
+      console.log("Server response " + server_response);
+    });
+    // window.location.href = '/'
+  }, 1000)
 };
 
 var gameFinished = function(player){

@@ -236,14 +236,18 @@ a:visited {
 /* APPLICATION SPECIFIC */
 
 .racer_table {
-   margin-top: 15%;
-  margin-left: 15%;
+  margin-top: 15%;
+  margin-left: 7%;
 }
 
 .racer_table td {
   background-color: white;
   height: 50px;
   width: 50px;
+}
+
+.racer_table tr {
+  padding: 10px;
 }
 
 .racer_table td.active {
