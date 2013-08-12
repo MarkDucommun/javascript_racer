@@ -1,0 +1,28 @@
+<div class="wrapper">
+  <div class="not-left"> 
+
+  <% user = User.find(session[:user_id]) if session[:user_id] %>
+
+  <%= CssHelper.authentication(user) %>
+
+  <!-- write a helper method to replace display instance variable -->
+  <%= erb @display.to_sym %>
+  
+  </div>
+
+  <% links = [{display: "1", link: "/"},
+              {display: "2", link: "/"},
+              {display: "3", link: "/"}] %>
+
+  <%= CssHelper.nav_bar("MusculoSkeletal", links) %>
+</div>
+
+
+
+
+
+
+
+
+
+
