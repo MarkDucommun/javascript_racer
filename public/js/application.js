@@ -1,5 +1,11 @@
-var player1 = Array(49,50,51,52,53,54,65,68,83,87,81,69)
-var player2 = Array(55,56,57,48,109,89,85,73,79,80,74,75,76)
+var player1 = Array(49,50,51,52,53,54,
+                    81,87,69,82,84,
+                    65,83,68,70,71,
+                    90,88,67,86,66)
+var player2 = Array(55,56,57,48,189,
+                    89,85,73,79,80,
+                    72,74,75,76,186,
+                    78,77,188,190,220)
 var keystroke1 = 65;
 var keystroke2 = 73;
 
@@ -31,7 +37,7 @@ $(document).ready(function() {
       if (e.keyCode == keystroke2){
         movePlayer('#player2_strip')
         console.log("UP WORKED");
-      }
+      }7
   });
   }, 1000)
   }, 1000)
