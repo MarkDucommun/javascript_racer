@@ -237,8 +237,9 @@ a:visited {
 /* APPLICATION SPECIFIC */
 
 .racer_table {
-  margin-top: 10%;
-  margin-left: 7%;
+  position: absolute;
+  top: 15%;
+  left: 5%;
 }
 
 .racer_table td {
@@ -255,16 +256,28 @@ a:visited {
   background-color: black;
 }
 
-#countdown {
+.letters {
+  width: 100%;
+  display: block;
+}
+
+.letters li {
+  text-align: center;
   font-size: 30px;
-  margin-left: 48%;
-  margin-top: 20px;
+  display: inline-block;
 }
 
 #player1 {
-  font-size: 30px;
+  position: absolute;
+  left: 5%;
+}
+
+#countdown {
+  position: absolute;
+  left: 50%;
 }
 
 #player2 {
-  font-size: 30px;
+  position: absolute;
+  right: 5%;
 }

@@ -1,12 +1,14 @@
-<div class="wrapper">
+<div class="board" 
+  data-game-id="<%= @game.try(:id) %>"
+  data-player1-id>
 
-
-  <table class="racer_table">
-  <div id="countdown">3</div>
-  <ul>
+  <ul class="letters">
   <li id="player1">A</li>
+  <li id="countdown">3</li>
   <li id="player2">J</li>
   </ul>
+
+  <table class="racer_table">
 
   <tr id="player1_strip">
     <td class="active"></td>

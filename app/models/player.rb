@@ -8,4 +8,9 @@ class Player < ActiveRecord::Base
   def won
     self.games.where(winner_id: self.id)
   end
+
+  def add_win
+    self.wins += 1
+    self.save
+  end
 end

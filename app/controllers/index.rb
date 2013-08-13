@@ -4,7 +4,6 @@ get '/' do
 end
 
 get '/game' do
-
   erb :board
 end
 
@@ -13,14 +12,18 @@ post '/start' do
   @game.players << Player.find_or_create_by_name(params[:player_1])
   @game.players << Player.find_or_create_by_name(params[:player_2])  
   @game.save
-  redirect('/game')
+
+  erb :board, layout: false
 end
 
 post '/save' do
-  puts "this is the winner #{params[:player]}"
-  if params[:player] == "#player1_strip"
-    Game.last.update_attributes(winner_id: Game.last.players[0].id)
+  if params[:player] == "1"
+    Game.last.foos.first.update_attributes(time: params[:time])
   else
-    Game.last.update_attributes(winner_id: Game.last.players[1].id)
+    Game.last.foos.last.update_attributes(time: params[:time])
   end
+end
+
+post '/get_winner' do
+  Game.set_last_winner
 end
