@@ -1,5 +1,5 @@
 get '/' do
-  @players = Player.all
+  @foos = Foo.order(:time).limit(10)
   erb :index
 end
 

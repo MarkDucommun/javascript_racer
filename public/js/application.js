@@ -39,8 +39,14 @@ var countdown = function(){
       
         $('#countdown').html("Go")
         
+        keystroke1 = player1[Math.floor(Math.random()*player1.length)];
+        $('#player1').html(String.fromCharCode(keystroke1));
+
+        keystroke2 = player2[Math.floor(Math.random()*player2.length)];
+        $('#player2').html(String.fromCharCode(keystroke2));
+
         start =  new Date().getTime() / 1000;
-        
+
         $(document).on('keyup', function(e){
           
           if (e.keyCode == keystroke1){
@@ -59,7 +65,7 @@ var countdown = function(){
 var startGame = function(event){
   event.preventDefault();
   $('.container').hide();
-  $.post('/start','',onSuccess)
+  $.post('/start', $('#startButton').serialize(), onSuccess)
 };
 
 var onSuccess = function(success){
@@ -126,15 +132,13 @@ var playerFinished = function(player){
     if(player == "#player1_strip"){
       oneDone = true;
       endOne =  new Date().getTime() / 1000;
-      console.log(endOne - start);
       $('#player1').html(endOne - start)
       $.post("/save", { player: 1, time: (endOne - start) });
     }
     else{
       twoDone = true;
       endTwo =  new Date().getTime() / 1000;
-      console.log(endTwo - start);
-      $('#player2').html((endTwo - start));
+      $('#player2').html(endTwo - start);
       $.post("/save", { player: 2, time: (endTwo - start) });
     }
   }

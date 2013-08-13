@@ -7,8 +7,8 @@
     </form>
 
     <ul>
-      <% @players.each do |player| %>
-      <li><%= player.name %> [ <%= player.won.size %> ]<li>
+      <% @foos.each do |foo| %>
+      <li><%= foo.time %> - <%= foo.player.name %> [ <%= foo.player.won.size %> ]<li>
       <% end %>
     </ul>
   </div>
