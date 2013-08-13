@@ -260,3 +260,11 @@ a:visited {
   margin-left: 48%;
   margin-top: 20px;
 }
+
+#player1 {
+  font-size: 30px;
+}
+
+#player2 {
+  font-size: 30px;
+}
