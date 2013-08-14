@@ -41,6 +41,11 @@ function Player(name, valid_keys, key_id, track_id){
   this.finished = false;
 };
 
+Player.prototype.refresh_key = function(){
+  this.new_key();
+  this.render_key();
+}
+
 Player.prototype.new_key = function(){
   this.current_key = this.valid_keys[Math.floor(Math.random()*this.valid_keys.length)];
 };
@@ -98,11 +103,9 @@ var onSuccess = function(success){
 
 var go = function(){
      
-  player1.new_key();
-  player1.render_key();
+  player1.refresh_key();
 
-  player2.new_key();
-  player2.render_key();
+  player2.refresh_key();
 
   var start_time =  new Date().getTime() / 1000;
 
@@ -116,8 +119,7 @@ var go = function(){
 
       if(player1.finished == false){
         player1.move();
-        player1.new_key();
-        player1.render_key();
+        player1.refresh_key();
       }
     }
 
@@ -126,8 +128,7 @@ var go = function(){
 
       if(player2.finished == false){
         player2.move();
-        player2.new_key();
-        player2.render_key();
+        player2.refresh_key();
       }
     }
   });
