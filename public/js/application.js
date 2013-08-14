@@ -1,23 +1,77 @@
-var player1 = Array(49,50,51,52,53,
-                    81,87,69,82,84,
-                    65,83,68,70,71,
-                    90,88,67,86,66)
+var keys_for_one = Array(49,50,51,52,53,
+                         81,87,69,82,84,
+                         65,83,68,70,71,
+                         90,88,67,86,66);
 
-var player2 = Array(55,56,57,48,189,
-                    89,85,73,79,80,
-                    72,74,75,76,186,
-                    78,77,188,190,191)
+var keys_for_two = Array(55,56,57,48,189,
+                         89,85,73,79,80,
+                         72,74,75,76,186,
+                         78,77,188,190,191);
 
-var keystroke1 = 65;
-var keystroke2 = 74;
+// var render_key = function(keycode, element)
+// {
+//   if(keycode == 189){
+//       return "-";
+//     }
+//     else if(keycode == 186){
+//       return ";";
+//     }
+//     else if(keycode == 188){
+//       return ",";
+//     }
+//     else if(keycode == 190){
+//       return ".";
+//     }
+//     else if(keycode == 191){
+//       return "/";
+//     }
+//     else if(keycode == 48){
+//       return "Zero";
+//     }
+//     else{
+//       return String.fromCharCode(keystroke2);
+//     }
+// };
 
-start = -1;
+function Player(name, valid_keys, key_id, track_id){
+  this.name = name;
+  this.valid_keys = valid_keys;
+  this.key_id = key_id;
+  this.track_id = track_id;
+  this.finished = false;
+};
 
-endOne = -1;
-endTwo = -1;
+Player.prototype.new_key = function(){
+  this.current_key = this.valid_keys[Math.floor(Math.random()*this.valid_keys.length)];
+};
 
-oneDone = false;
-twoDone = false;
+Player.prototype.render_key = function(){
+  $(this.key_id).html(String.fromCharCode(this.current_key));
+};
+
+Player.prototype.move = function(){
+  var active = (this.track_id + ' .active');
+  var next = $(active).next();
+  $(active).removeClass('active');
+  $(next).addClass('active');
+};
+
+Player.prototype.check_if_finished = function(){
+  var last_child = this.track_id + ' td:last-child';
+
+  if ( $(last_child).hasClass('active') == true){
+    this.finished = true;
+    var elapsed = (new Date().getTime() / 1000) - this.start;
+    $(this.key_id).html(elapsed);
+    $.post('/save', {player: this.name, time: elapsed});
+  };
+
+  gameFinished();
+};
+
+Player.prototype.start_time = function(start){
+  this.start = start;
+};
 
 $(document).ready(function() {
 
@@ -25,8 +79,59 @@ $(document).ready(function() {
   var playerOneId = $('board').data('player1-id');
   var playerTwoId = $('board').data('player2-id');
   
+  player1 = new Player("1", keys_for_one, "#player1", "#player1_strip");
+  player2 = new Player("2", keys_for_two, "#player2", "#player2_strip");
+
   $('#startButton').on('submit', startGame);
 });
+
+var startGame = function(event){
+  event.preventDefault();
+  $('.container').hide();
+  $.post('/start', $('#startButton').serialize(), onSuccess);
+};
+
+var onSuccess = function(success){
+  $('.wrapper').append(success);
+  countdown();
+};
+
+var go = function(){
+     
+  player1.new_key();
+  player1.render_key();
+
+  player2.new_key();
+  player2.render_key();
+
+  var start_time =  new Date().getTime() / 1000;
+
+  player1.start_time(start_time);
+  player2.start_time(start_time);
+
+  $(document).on('keyup', function(e){
+    
+    if (e.keyCode == player1.current_key){
+      player1.check_if_finished();
+
+      if(player1.finished == false){
+        player1.move();
+        player1.new_key();
+        player1.render_key();
+      }
+    }
+
+    if (e.keyCode == player2.current_key){
+      player2.check_if_finished();
+
+      if(player2.finished == false){
+        player2.move();
+        player2.new_key();
+        player2.render_key();
+      }
+    }
+  });
+};
 
 var countdown = function(){
   setTimeout(function(){
@@ -37,130 +142,33 @@ var countdown = function(){
       $('#countdown').html("1")
       setTimeout(function(){
       
-        $('#countdown').html("Go")
-        
-        keystroke1 = player1[Math.floor(Math.random()*player1.length)];
-        $('#player1').html(String.fromCharCode(keystroke1));
+        $('#countdown').html("Go");
+        go();
 
-        keystroke2 = player2[Math.floor(Math.random()*player2.length)];
-        $('#player2').html(String.fromCharCode(keystroke2));
-
-        start =  new Date().getTime() / 1000;
-
-        $(document).on('keyup', function(e){
-          
-          if (e.keyCode == keystroke1){
-            playerOneStuff();
-          }
-
-          if (e.keyCode == keystroke2){
-            playerTwoStuff();
-          }
-        });
-      }, 1000)
-    }, 1000)
-  }, 1000)
-}
-
-var startGame = function(event){
-  event.preventDefault();
-  $('.container').hide();
-  $.post('/start', $('#startButton').serialize(), onSuccess)
-};
-
-var onSuccess = function(success){
-  $('.wrapper').append(success);
-  countdown();
-}
-
-var movePlayer = function(player){
-
-  var active = (player + ' .active')
-  var next = $(active).next();
-  $(active).removeClass('active');
-  $(next).addClass('active');
-};
-
-var playerOneStuff = function(){
-  
-  playerFinished('#player1_strip');
-  
-  if(oneDone == false){
-    movePlayer('#player1_strip');
-    keystroke1 = player1[Math.floor(Math.random()*player1.length)];
-    $('#player1').html(String.fromCharCode(keystroke1));
-  } 
-};
-
-var playerTwoStuff = function(){
-
-  playerFinished('#player2_strip');
-  
-  if(twoDone == false){
-    movePlayer('#player2_strip');
-    keystroke2 = player2[Math.floor(Math.random()*player2.length)];
-    if(keystroke2 == 189){
-      $('#player2').html("-");
-    }
-    else if(keystroke2 == 186){
-      $('#player2').html(";");
-    }
-    else if(keystroke2 == 188){
-      $('#player2').html(",");
-    }
-    else if(keystroke2 == 190){
-      $('#player2').html(".");
-    }
-    else if(keystroke2 == 191){
-      $('#player2').html("/");
-    }
-    else if(keystroke2 == 48){
-      $('#player2').html("Zero");
-    }
-    else{
-      $('#player2').html(String.fromCharCode(keystroke2));
-    }
-  }
-}
-
-var playerFinished = function(player){
-  
-  var last_cell = (player + ' td:last-child')
-  console.log(player == "#player1_strip")
-  if ($(last_cell).hasClass('active')){
-    
-    if(player == "#player1_strip"){
-      oneDone = true;
-      endOne =  new Date().getTime() / 1000;
-      $('#player1').html(endOne - start)
-      $.post("/save", { player: 1, time: (endOne - start) });
-    }
-    else{
-      twoDone = true;
-      endTwo =  new Date().getTime() / 1000;
-      $('#player2').html(endTwo - start);
-      $.post("/save", { player: 2, time: (endTwo - start) });
-    }
-  }
-  gameFinished();
+      }, 1000);
+    }, 1000);
+  }, 1000);
 };
 
 var gameFinished = function(){
-  if(oneDone == true && twoDone == true){
+  if(player1.finished == true && player2.finished == true){
+    
     $(document).unbind('keyup');
-    $('.racer_table').hide();
-  $('iframe').show();
-  var start = Math.floor(8 + Math.random()*1185)
-  var end = start + 15
-  console.log(start);
-  $.post("/get_winner")
-  setTimeout(function(){
-    $('.wrapper').append('<iframe style="position: absolute" width="100%" height="100%" src="//www.youtube.com/embed/Kdgt1ZHkvnM?start=' + start + '&end=' + end + '&autoplay=1"  frameborder="0" allowfullscreen></iframe>');
-    $('.board').hide();
+    var clip_start = Math.floor(8 + Math.random()*1185)
+    var clip_end = clip_start + 15
+    $.post("/get_winner")
+    
     setTimeout(function(){
-      $('.container').show();
-      $('iframe').remove();
-  }, 16000)  
-  }, 1000)
+      
+      $('.board').hide();
+      $('.wrapper').append('<iframe style="position: absolute" width="100%" height="100%" src="//www.youtube.com/embed/Kdgt1ZHkvnM?start=' + clip_start + '&end=' + clip_end + '&autoplay=1"  frameborder="0" allowfullscreen></iframe>');
+      
+      setTimeout(function(){
+      
+        $('iframe').remove();
+        $
+      }, 16000)  
+    }, 1000)
   }
-}
+};
+

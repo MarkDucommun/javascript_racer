@@ -9,8 +9,10 @@ end
 
 post '/start' do
   @game = Game.new
-  @game.players << Player.find_or_create_by_name(params[:player_1])
-  @game.players << Player.find_or_create_by_name(params[:player_2])  
+  @player1 = Player.find_or_create_by_name(params[:player_1])
+  @player2 = Player.find_or_create_by_name(params[:player_2])  
+  @game.players << @player1
+  @game.players << @player2
   @game.save
 
   erb :board, layout: false

@@ -1,5 +1,7 @@
 <div class="board" 
-data-game-id="<%= @game.try(:id) %>">
+data-game-id="<%= @game.try(:id) %>"
+data-player1-id="<%= @player1.try(:id) %>"
+data-player2-id="<%= @player2.try(:id) %>" >
 
   <ul class="letters">
   <li id="player1"></li>
