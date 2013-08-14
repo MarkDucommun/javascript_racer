@@ -8,30 +8,10 @@ var keys_for_two = Array(55,56,57,48,189,
                          72,74,75,76,186,
                          78,77,188,190,191);
 
-// var render_key = function(keycode, element)
-// {
-//   if(keycode == 189){
-//       return "-";
-//     }
-//     else if(keycode == 186){
-//       return ";";
-//     }
-//     else if(keycode == 188){
-//       return ",";
-//     }
-//     else if(keycode == 190){
-//       return ".";
-//     }
-//     else if(keycode == 191){
-//       return "/";
-//     }
-//     else if(keycode == 48){
-//       return "Zero";
-//     }
-//     else{
-//       return String.fromCharCode(keystroke2);
-//     }
-// };
+var render_key = function(keycode, element)
+{
+
+};
 
 function Player(name, valid_keys, key_id, track_id){
   this.name = name;
@@ -51,14 +31,34 @@ Player.prototype.new_key = function(){
 };
 
 Player.prototype.render_key = function(){
-  $(this.key_id).html(String.fromCharCode(this.current_key));
+  if(this.current_key == 189){
+    $(this.key_id).html("-");
+  }
+  else if(this.current_key == 186){
+    $(this.key_id).html(";");
+  }
+  else if(this.current_key == 188){
+    $(this.key_id).html(",");
+  }
+  else if(this.current_key == 190){
+    $(this.key_id).html(".");
+  }
+  else if(this.current_key == 191){
+    $(this.key_id).html("/");
+  }
+  else if(this.current_key == 48){
+    $(this.key_id).html("Zero");
+  }
+  else{
+    $(this.key_id).html(String.fromCharCode(this.current_key));
+  } 
 };
 
 Player.prototype.move = function(){
-  var active = (this.track_id + ' .active');
-  var next = $(active).next();
-  $(active).removeClass('active');
-  $(next).addClass('active');
+  var active = $(this.track_id + ' .active');
+  var next = active.next();
+  active.removeClass('active');
+  next.addClass('active');
 };
 
 Player.prototype.check_if_finished = function(){
@@ -167,7 +167,7 @@ var gameFinished = function(){
       setTimeout(function(){
       
         $('iframe').remove();
-        $
+        location.href = "/";
       }, 16000)  
     }, 1000)
   }
